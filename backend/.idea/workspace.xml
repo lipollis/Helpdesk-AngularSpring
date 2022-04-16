@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5bb49e33-6d4d-4f09-93f8-ffd4a68a784e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/HelpdeskBackendApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/config/DevConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/config/TestConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/Chamado.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/Cliente.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/Pessoa.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/Tecnico.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/dtos/TecnicoDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/enums/Perfil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/enums/Prioridade.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/domain/enums/Status.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/repositories/ChamadoRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/repositories/ClienteRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/repositories/PessoaRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/repositories/TecnicoRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/resources/TecnicoResource.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/services/DBService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/helpdesk/helpdesk/services/TecnicoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/config/api.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/config/api.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
