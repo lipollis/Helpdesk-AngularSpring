@@ -1,64 +1,63 @@
 package com.helpdesk.backend.resources;
 
-import com.helpdesk.backend.domain.Cliente;
-import com.helpdesk.backend.domain.Tecnico;
-import com.helpdesk.backend.domain.dtos.ClienteDTO;
-import com.helpdesk.backend.domain.dtos.TecnicoDTO;
-import com.helpdesk.backend.services.ClienteService;
-import com.helpdesk.backend.services.TecnicoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
+import com.helpdesk.backend.domain.Cliente;
+import com.helpdesk.backend.domain.dtos.ClienteDTO;
+import com.helpdesk.backend.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 @RestController
-@RequestMapping(value = "/clientes") //localhost:8080/clientes
+@RequestMapping(value = "/clientes")
 public class ClienteResource {
 
-    @Autowired
-    private ClienteService service;
+	@Autowired
+	private ClienteService service;
 
-    // MÉTODO - SERVE PARA REPRESENTAR TODA A RESPOSTA HTTP
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id){
-        // COMUNICAÇÃO COM O BANCO DE DADOS
-        Cliente obj = service.findById(id);
-        return ResponseEntity.ok().body(new ClienteDTO(obj));
-    }
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
+		Cliente obj = service.findById(id);
+		return ResponseEntity.ok().body(new ClienteDTO(obj));
+	}
 
-    // MÉTODO LISTARÁ TODOS OS CLIENTE DTO - QUANDO NÃO HÁ PARÂMETROS DEFINIDOS
-    @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll() {
-        List<Cliente> list = service.findAll();
-        List<ClienteDTO> listDTO = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDTO);
-    }
+	@GetMapping
+	public ResponseEntity<List<ClienteDTO>> findAll() {
+		List<Cliente> list = service.findAll();
+		List<ClienteDTO> listDTO = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
 
-    // MÉTODO PARA CRIAR UM NOVO REGISTRO DE CLIENTE
-    @PostMapping
-    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO) {
-        Cliente newObj = service.create(objDTO);
-        // SETA O ENDEREÇO DO NOVO OBJETO
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
+	@PostMapping
+	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDTO) {
+		Cliente newObj = service.create(objDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO) {
+		Cliente obj = service.update(id, objDTO);
+		return ResponseEntity.ok().body(new ClienteDTO(obj));
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id) {
+		service.delete(id); 
+		return ResponseEntity.noContent().build();
+	}
 
-    // MÉTODO PARA ATUALIZAR UM NOVO REGISTRO DE CLIENTE
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDTO) {
-        Cliente obj = service.update(id, objDTO);
-        return ResponseEntity.ok().body(new ClienteDTO(obj));
-    }
-
-    // MÉTODO PARA DELETAR UM NOVO REGISTRO DE CLIENTE
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 }

@@ -1,5 +1,7 @@
 package com.helpdesk.backend.resources.exceptions;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.helpdesk.backend.services.exceptions.DataIntegrityViolationException;
 import com.helpdesk.backend.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -9,47 +11,48 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
-
-// MANIPULADOR DE EXCEÇÕES DO RECURSO
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    //MANIPULADOR DA CLASSE ObjectNotFoundException - PARA BUSCA POR UM REGISTRO INEXISTENTE
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> objectNotFoundException(ObjectNotFoundException ex,
-                                                                 HttpServletRequest request) {
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> objectnotFoundException(ObjectNotFoundException ex,
+			HttpServletRequest request) {
 
-        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
-                "Object Not Found", ex.getMessage(), request.getRequestURI());
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
+				"Object Not Found", ex.getMessage(), request.getRequestURI());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
 
-    //MANIPULADOR DA CLASSE DataIntegrityViolationException - PARA CASO DE EMAIL E CPF JÁ CONSTAR REGISTRADO
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex,
-                                                                 HttpServletRequest request) {
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex,
+			HttpServletRequest request) {
 
-        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-                "Violação de dados", ex.getMessage(), request.getRequestURI());
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+				"Violação de dados", ex.getMessage(), request.getRequestURI());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
 
-    // MÉTODO PARA A VALIDAÇÃO DOS ERROS PARA OS CAMPOS
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<StandardError> validationErrors(MethodArgumentNotValidException ex,
-                                                          HttpServletRequest request) {
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> validationErrors(MethodArgumentNotValidException ex,
+			HttpServletRequest request) {
 
-        ValidationError errors = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
-                "Validation error", "Erro na validação dos campos", request.getRequestURI());
+		ValidationError errors = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), 
+				"Validation error", "Erro na validação dos campos", request.getRequestURI());
+		
+		for(FieldError x : ex.getBindingResult().getFieldErrors()) {
+			errors.addError(x.getField(), x.getDefaultMessage());
+		}
 
-        // ACESSA TODOS OS ERROS DE CADA FIELD COM ERRO
-        for(FieldError x : ex.getBindingResult().getFieldErrors()) {
-            errors.addError(x.getField(), x.getDefaultMessage());
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-    }
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+	}
 }
+
+
+
+
+
+
+
+
